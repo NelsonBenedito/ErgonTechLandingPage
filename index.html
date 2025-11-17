@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ergon Tecnologia | Soluções em TI e Segurança</title>
+    <!-- Carrega a biblioteca Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Define a fonte Poppins como padrão para um visual moderno */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;600;700;900&display=swap');
+
+        /* === Estilos Globais e Dark Mode === */
+        :root {
+            --purple-dark: #4A148C;
+            --purple-light: #9C27B0;
+            --blue-dark: #0A0F33;
+            --bg-dark-base: #0c0c0c;
+        }
+
+        /* Estilo para Scroll Suave */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Classes de Tema */
+        .theme-dark {
+            background-color: var(--bg-dark-base);
+            color: #ffffff;
+            background-image: url('BgErgon.jpg');
+            /* Fundo Escuro Personalizado */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        .theme-light {
+            background-color: #ffffff;
+            color: var(--blue-dark);
+            background-image: none;
+        }
+
+        /* Efeito Glassmorphism/Card Base - Adaptação para Light Mode */
+        .glass-card-dark {
+            background-color: rgba(255, 255, 255, 0.05);
+            /* Mais transparente no dark */
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .theme-light .glass-card-dark {
+            background-color: rgba(230, 230, 230, 0.7);
+            /* Mais opaco no light */
+            border: 1px solid rgba(10, 15, 51, 0.1);
+        }
+
+        /* Estilo específico para o menu mobile (Menu Hambúrguer) */
+        #mobile-menu {
+            /* Fixa na lateral esquerda, oculto por padrão */
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 50;
+            /* Garante que fique acima de outros elementos */
+        }
+
+        #mobile-menu.open {
+            transform: translateX(0);
+            /* Move para a tela quando 'open' */
+        }
+    </style>
+    <!-- Configuração do Tailwind para Cores e Imagens de Fundo -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ergon-purple-dark': '#4A148C',
+                        'ergon-purple': '#9C27B0',
+                        'ergon-blue-dark': '#0A0F33',
+                        'ergon-text-light': '#e0e0e0',
+                        'ergon-dark-base': '#0c0c0c',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'Inter', 'Arial', 'sans-serif'],
+                    },
+                    // Vincula os arquivos de imagem do usuário nos backgrounds
+                    backgroundImage: {
+                        // Imagem da seção "Sobre Nós" (com overlay escuro)
+                        'about-tech': "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./content/aboutImg.jpg')",
+                        // Imagem do Card de Serviço (Manutenção)
+                        'service-fix': "linear-gradient(to top, rgba(74, 20, 140, 0.7), rgba(156, 39, 176, 0.5)), url('./content/computerFix.jpg')",
+                    }
+                }
+            }
+        }
+    </script>
+   
+    <meta name="title" content="Ergon Tecnologia | Soluções em TI e Segurança">
+    <meta name="description" content="Solução inovadora! Clique e saiba mais!">
+    <meta property="og:title" content="Ergon Tecnologia | Soluções em TI e Segurança">
+    <meta property="og:description" content="Solução inovadora! Clique e saiba mais!">
+    <meta property="og:url" content="https://ergontecnologia.netlify.app/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./content/ErgonTecnologiaProfile.png">
+    
+</head>
+<body class="theme-dark min-h-screen font-sans">
+    <!-- MENU MOBILE (Sidebar) -->
+    <div id="mobile-menu"
+        class="fixed top-0 left-0 w-64 h-full bg-ergon-dark-base/95 backdrop-blur-lg shadow-2xl p-6 md:hidden overflow-y-auto">
+
+        <!-- Cabeçalho do Menu Mobile -->
+        <div class="flex items-center justify-between border-b border-ergon-purple/50 pb-4 mb-6">
+            <img src="ErgonTechHorizontal.jpg" alt="Ergon Tecnologia Logo"
+                class="h-8 transition-all duration-300 bg-transparent"
+                onerror="this.onerror=null; this.src='https://placehold.co/120x32/4A148C/ffffff?text=ERGON+TECH';">
+            <!-- Botão Fechar -->
+            <button id="close-menu-btn" class="text-white hover:text-ergon-purple transition">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Links de Navegação Mobile -->
+        <nav class="flex flex-col space-y-4 text-lg font-semibold text-white">
+            <a href="#about"
+                class="nav-link-mobile p-2 rounded hover:bg-ergon-purple/20 transition duration-150">Sobre</a>
+            <a href="#services"
+                class="nav-link-mobile p-2 rounded hover:bg-ergon-purple/20 transition duration-150">Serviços</a>
+            <a href="#contact"
+                class="nav-link-mobile p-2 rounded hover:bg-ergon-purple/20 transition duration-150">Contato</a>
+        </nav>
+
+        <div class="mt-8 pt-6 border-t border-ergon-purple/50">
+            <!-- Toggle de Tema no Mobile -->
+            <button id="theme-toggle-sidebar"
+                class="w-full flex items-center justify-center p-3 rounded-xl bg-ergon-purple text-white hover:bg-ergon-purple-dark transition shadow-lg">
+                <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707" />
+                </svg>
+                <span id="theme-text">Trocar para Tema Claro</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Container principal com espaçamento responsivo -->
+    <div class="container mx-auto px-4 py-12 md:py-24 relative z-10">
+
+        <!-- HEADER / HERO SECTION -->
+        <header class="mb-20">
+            <!-- Navbar: Logo, navegação e Toggle de Tema -->
+            <div id="navbar" class="flex items-center justify-between mb-16 p-8 rounded-xl glass-card-dark shadow-lg">
+                <div class="flex items-center">
+                    <!-- Logo (usa o logo claro (BgErgon) para o Dark Mode padrão, e o sem fundo (ErgonTechSemfundo) para o Light Mode) -->
+                    <img src="ErgonTechHorizontal.jpg" id="logo-image" alt="Ergon Tecnologia Logo"
+                        class="h-10 md:h-12 transition-all duration-300 bg-transparent"
+                        onerror="this.onerror=null; this.src='https://placehold.co/150x48/4A148C/ffffff?text=ERGON+TECH';">
+                </div>
+
+                <!-- Botões Mobile (Hambúrguer e Tema) -->
+                <div class="flex items-center space-x-3 md:hidden">
+                    <!-- Botão Toggle Mobile (Aberto, agora dentro do menu hambúrguer) -->
+                    <!-- <button id="theme-toggle-mobile" class="p-2 rounded-full bg-ergon-purple text-white hover:bg-ergon-purple-dark transition">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"/></svg>
+                    </button> -->
+
+                    <!-- NOVO: Botão Menu Hambúrguer -->
+                    <button id="open-menu-btn"
+                        class="p-2 rounded-full bg-ergon-purple text-white hover:bg-ergon-purple-dark transition shadow-lg">
+                        <!-- Icone de Hambúrguer -->
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Navegação Desktop (escondida no mobile) -->
+                <nav class="hidden md:flex items-center space-x-6 text-sm font-semibold transition-colors duration-300">
+                    <!-- Links com função JavaScript para scroll suave -->
+                    <a href="#about" class="nav-link hover:text-ergon-purple transition">Sobre</a>
+                    <a href="#services" class="nav-link hover:text-ergon-purple transition">Serviços</a>
+                    <a href="#contact" class="nav-link hover:text-ergon-purple transition">Contato</a>
+
+                    <!-- Toggle de Tema (Desktop) -->
+                    <button id="theme-toggle"
+                        class="p-2 rounded-full bg-ergon-purple text-white hover:bg-ergon-purple-dark transition shadow-lg">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707" />
+                        </svg>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- CHAMADA PRINCIPAL -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-white transition-colors duration-300"
+                id="hero-text">
+                <div class="md:col-span-2">
+                    <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-4">
+                        Soluções que movem o seu <span class="text-ergon-purple">futuro</span> digital.
+                    </h1>
+                    <p class="text-xl opacity-80 mb-8 max-w-xl">
+                        Suporte técnico especializado, segurança e otimização de TI com a agilidade que você precisa.
+                    </p>
+                    <!-- Botão CTA com efeito de sombra roxa -->
+                    <a target="_blank" href="https://wa.me/27995230714?text=Olá! Gostaria de um orçamento."
+                        class="inline-block bg-ergon-purple hover:brightness-50 text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-ergon-purple/50 transition transform hover:scale-105">
+                        Orçamento Rápido via WhatsApp
+                    </a>
+                </div>
+                <!-- Efeito visual moderno (oculto no mobile) -->
+                <div class="hidden md:block">
+                    <div
+                        class="w-48 h-48 mx-auto bg-white/10 rounded-3xl backdrop-blur-lg border border-white/20 p-4 shadow-2xl flex items-center justify-center transition hover:rotate-3">
+                        <svg class="w-24 h-24 text-ergon-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9.75 17L19.5 7.25M12 21a9 9 0 100-18 9 9 0 000 18z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SEÇÃO 1: SOBRE NÓS (Grid com Imagem Destaque) -->
+        <section id="about" class="mb-20 p-8 rounded-2xl glass-card-dark shadow-xl transition-colors duration-300">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+
+                <!-- Coluna de Texto -->
+                <div class="lg:col-span-2 p-4">
+                    <h2 class="text-4xl font-bold mb-4 text-ergon-purple">Sobre Nós: Foco em Solução</h2>
+                    <p class="text-lg mb-6 text-ergon-text-light opacity-90 transition-colors duration-300"
+                        id="about-text">
+                        A Ergon Tecnologia nasceu com o propósito de oferecer soluções eficientes e acessíveis para quem
+                        precisa de tecnologia funcionando todos os dias. Atuamos com manutenção de computadores,
+                        instalação de câmeras de segurança, redes e suporte técnico especializado, sempre com foco em
+                        <span class="text-ergon-purple">confiabilidade</span>, <span
+                            class="text-ergon-purple">agilidade</span> e <span class="text-ergon-purple">atendimento
+                            personalizado</span>.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-4 rounded-lg bg-ergon-blue-dark/50 transition-colors duration-300"
+                            id="about-card-1">
+                            <h4 class="font-semibold text-ergon-purple">Confiabilidade</h4>
+                            <p class="text-sm opacity-70">Garantia total nos serviços prestados e suporte contínuo.</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-ergon-blue-dark/50 transition-colors duration-300"
+                            id="about-card-2">
+                            <h4 class="font-semibold text-ergon-purple">Especialização</h4>
+                            <p class="text-sm opacity-70">Técnico atualizado nas últimas tecnologias.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imagem vinculada: image_991a80.jpg -->
+                <div
+                    class="h-64 lg:h-96 w-full rounded-xl bg-about-tech bg-cover bg-center shadow-lg transition duration-500 hover:scale-[1.02]">
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: NOSSOS SERVIÇOS (Dynamic Glass Cards) -->
+        <section id="services" class="mb-20">
+            <h2 class="text-4xl font-bold mb-10 text-center text-white transition-colors duration-300"
+                id="services-title">Nossas Áreas de Atuação</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- Card 1: Manutenção (Ocupa 2 colunas no desktop) -->
+                <div class="md:col-span-2 p-8 rounded-2xl glass-card-dark shadow-2xl transition hover:shadow-ergon-purple/50"
+                    id="service-card-1">
+                    <div class="flex items-center mb-4">
+                        <svg class="w-8 h-8 text-ergon-purple mr-3" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <h3 class="text-2xl font-semibold text-ergon-purple">Manutenção de Computadores e Notebooks</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="pr-4">
+                            <p class="text-lg mb-4 opacity-90" id="service-text-1">
+                                Diagnóstico, formatação, remoção de vírus e troca de peças. Garantimos que seus
+                                equipamentos funcionem no pico da performance, prolongando sua vida útil.
+                            </p>
+                            <ul class="space-y-2 text-sm opacity-80">
+                                <li>• Otimização de Sistemas Operacionais</li>
+                                <li>• Limpeza Interna e Troca de Componentes</li>
+                                <li>• Suporte para Softwares e Drivers</li>
+                            </ul>
+                        </div>
+                        <!-- Imagem do Card de Serviço vinculada: image_991ad8.jpg -->
+                        <div
+                            class="h-48 md:h-full rounded-xl bg-service-fix bg-cover bg-center transition duration-500 hover:brightness-110">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Câmeras (Single Column) -->
+                <div class="p-6 rounded-2xl bg-ergon-purple-dark/50 shadow-2xl transition hover:bg-ergon-purple-dark/70"
+                    id="service-card-2">
+                    <svg class="w-8 h-8 text-white mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <rect x="5" y="11" width="14" height="11" rx="2" ry="2" />
+                        <!-- Manilha (Shackle) -->
+                        <path d="M17 11V7a5 5 0 0 0-10 0v4" />
+                    </svg>
+                    <h3 class="text-xl font-semibold mb-3 text-white transition-colors duration-300"
+                        id="service-heading-2">Segurança Eletrônica (CFTV)</h3>
+                    <p class="text-sm opacity-80 text-ergon-text-light transition-colors duration-300"
+                        id="service-text-2">
+                        Instalação e configuração de câmeras IP e analógicas. Tenha acesso remoto total e monitore seu
+                        patrimônio de onde estiver.
+                    </p>
+                </div>
+
+                <!-- Card 3: Redes (Single Column) -->
+                <div class="p-6 rounded-2xl bg-ergon-purple-dark/50 shadow-2xl transition hover:bg-ergon-purple-dark/70"
+                    id="service-card-3">
+                    <svg class="w-8 h-8 text-white mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                    <h3 class="text-xl font-semibold mb-3 text-white transition-colors duration-300"
+                        id="service-heading-3">Redes e Infraestrutura</h3>
+                    <p class="text-sm opacity-80 text-ergon-text-light transition-colors duration-300"
+                        id="service-text-3">
+                        Montagem de redes estruturadas, configuração de roteadores e otimização de Wi-Fi. Conexão
+                        estável e rápida é fundamental.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: CONTATO E FOOTER -->
+        <section id="contact" class="text-center pt-10 pb-4 border-t border-white/20 transition-colors duration-300">
+            <h2 class="text-3xl font-bold mb-4 text-white transition-colors duration-300 " id="contact-title">Pronto
+                para
+                inovar?</h2>
+            <p class="text-lg opacity-80 mb-8 text-white transition-colors duration-300" id="contact-text">Fale
+                diretamente com um de nossos especialistas e solicite um orçamento sem compromisso.</p>
+
+            <!-- Botão CTA Invertido -->
+            <a target="_blank" href="https://wa.me/27995230714?text=Olá! Gostaria de um orçamento."
+                class="inline-block bg-ergon-purple text-white hover:brightness-50 font-bold py-3 px-10 rounded-full shadow-xl shadow-ergon-purple/50 transition transform hover:scale-105">
+                Chamar no WhatsApp
+            </a>
+
+            <div class="mt-12 text-sm opacity-70 space-y-2 text-white transition-colors duration-300" id="footer-text">
+                <p>
+                    <strong class="text-ergon-purple">📱 WhatsApp:</strong> (27)99523-0714
+                </p>
+                <p>
+                    <strong class="text-ergon-purple">📧 E-mail:</strong> ergon.comunicacao.atendimento@gmail.com
+                </p>
+                <p>&copy; 2025 Ergon Tecnologia. Todos os direitos reservados.</p>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Botão "Voltar ao Topo" -->
+    <button id="back-to-top"
+        class="fixed bottom-6 right-6 p-3 bg-ergon-purple hover:bg-ergon-purple-dark text-white rounded-full shadow-xl transition-opacity duration-300 opacity-0 pointer-events-none z-50">
+        <!-- Ícone de Seta para Cima -->
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
+
+    <!-- Overlay Escuro para Menu Mobile (para fechar ao tocar fora) -->
+    <div id="menu-overlay"
+        class="fixed inset-0 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden z-40">
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            const toggleButtons = document.querySelectorAll('#theme-toggle, #theme-toggle-sidebar');
+            const navLinksDesktop = document.querySelectorAll('.nav-link');
+            const navLinksMobile = document.querySelectorAll('.nav-link-mobile');
+            const logoImage = document.getElementById('logo-image');
+            const backToTopButton = document.getElementById('back-to-top');
+
+            const openMenuBtn = document.getElementById('open-menu-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuOverlay = document.getElementById('menu-overlay');
+            const themeText = document.getElementById('theme-text'); // Texto no botão de tema do sidebar
+
+            const LOGO_DARK = './content/ErgonTecnologiaSemfundo.png';
+            const LOGO_LIGHT = './content/ErgonTecnologiaColoridoSemfundo.png'; // Usei um placeholder se você não tiver essa imagem exata
+            const LOGO_FALLBACK = 'https://placehold.co/150x48/4A148C/ffffff?text=ERGON+TECH';
+
+            // --- Funções de Controle do Menu Mobile ---
+            function openMenu() {
+                mobileMenu.classList.add('open');
+                menuOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                menuOverlay.classList.add('opacity-100');
+                // Impede o scroll do corpo quando o menu está aberto
+                document.body.style.overflowY = 'hidden';
+            }
+
+            function closeMenu() {
+                mobileMenu.classList.remove('open');
+                menuOverlay.classList.remove('opacity-100');
+                menuOverlay.classList.add('opacity-0', 'pointer-events-none');
+                // Restaura o scroll do corpo
+                document.body.style.overflowY = 'auto';
+            }
+
+            openMenuBtn.addEventListener('click', openMenu);
+            closeMenuBtn.addEventListener('click', closeMenu);
+            menuOverlay.addEventListener('click', closeMenu); // Fecha ao clicar no overlay
+
+            navLinksMobile.forEach(link => {
+                link.addEventListener('click', closeMenu); // Fecha ao clicar no link do mobile
+            });
+
+
+            /**
+             * Função para aplicar as classes de tema
+             * @param {string} theme 'dark' ou 'light'
+             */
+            function applyTheme(theme) {
+                // 1. Aplica classes no Body
+                if (theme === 'dark') {
+                    body.classList.remove('theme-light');
+                    body.classList.add('theme-dark');
+                    localStorage.setItem('theme', 'dark');
+                    if (themeText) themeText.textContent = 'Trocar para Tema Claro';
+                    logoImage.src = LOGO_DARK;
+                } else {
+                    body.classList.remove('theme-dark');
+                    body.classList.add('theme-light');
+                    localStorage.setItem('theme', 'light');
+                    if (themeText) themeText.textContent = 'Trocar para Tema Escuro';
+                    logoImage.src = LOGO_LIGHT;
+                }
+
+                // Fallback de logo caso a imagem não carregue
+                logoImage.onerror = function () { this.src = LOGO_FALLBACK; };
+
+
+                // 2. Atualiza elementos de cor
+                document.querySelectorAll('.glass-card-dark').forEach(el => {
+                    el.classList.toggle('theme-light', theme === 'light');
+                });
+
+                // Elementos de texto que mudam de cor
+                document.querySelectorAll('#hero-text, #about-text, #services-title, #contact-title, #contact-text, #footer-text').forEach(el => {
+                    el.classList.toggle('text-white', theme === 'dark');
+                    el.classList.toggle('text-gray-900', theme === 'light');
+                });
+
+                // Elementos de fundo que mudam de cor (exemplo para cards da seção about)
+                document.querySelectorAll('#about-card-1, #about-card-2').forEach(el => {
+                    el.classList.toggle('bg-ergon-blue-dark/50', theme === 'dark');
+                    el.classList.toggle('bg-gray-200', theme === 'light');
+                });
+            }
+
+            // Inicialização do Tema
+            const storedTheme = localStorage.getItem('theme') || 'dark'; // Dark Mode como padrão
+            applyTheme(storedTheme);
+
+
+            // Event Listener para o Toggle de Tema
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Se o botão for o do sidebar, fecha o menu primeiro
+                    if (button.id === 'theme-toggle-sidebar') {
+                        closeMenu();
+                    }
+
+                    const currentTheme = body.classList.contains('theme-dark') ? 'dark' : 'light';
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    applyTheme(newTheme);
+                });
+            });
+
+            // Implementação do Scroll Suave para a navegação interna
+            function setupNavLinkEvents(links) {
+                links.forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            // Usa scrollIntoView para rolagem suave, garantida pelo CSS scroll-behavior: smooth
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    });
+                });
+            }
+
+            // Aplica os eventos de scroll tanto nos links do desktop quanto do mobile
+            setupNavLinkEvents(navLinksDesktop);
+            setupNavLinkEvents(navLinksMobile);
+
+
+            // --- Lógica do Botão "Voltar ao Topo" ---
+            const scrollThreshold = 300; // Distância em pixels para mostrar o botão
+
+            function handleScroll() {
+                if (window.scrollY > scrollThreshold) {
+                    // Adiciona opacidade e permite interação
+                    backToTopButton.classList.remove('opacity-0', 'pointer-events-none');
+                    backToTopButton.classList.add('opacity-100');
+                } else {
+                    // Remove opacidade e desativa interação
+                    backToTopButton.classList.remove('opacity-100');
+                    backToTopButton.classList.add('opacity-0', 'pointer-events-none');
+                }
+            }
+
+            function scrollToTop() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+
+            // Adiciona listeners para scroll e clique
+            window.addEventListener('scroll', handleScroll);
+            backToTopButton.addEventListener('click', scrollToTop);
+
+            // Chama uma vez para verificar o estado inicial
+            handleScroll();
+        });
+    </script>
+</body>
+
+</html>
